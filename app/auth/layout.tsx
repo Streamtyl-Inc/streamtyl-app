@@ -15,7 +15,7 @@ const AuthLayout = ({ children }: Props) => {
       h="100vh"
       className={`${montserrat.className} no-scrollbar`}
       as="main"
-      w="100vw"
+      w="full"
       overflowY="auto"
       alignItems="start"
       spacing={14}
