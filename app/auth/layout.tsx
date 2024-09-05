@@ -18,9 +18,9 @@ const AuthLayout = ({ children }: Props) => {
       w="100vw"
       overflowY="auto"
       alignItems="start"
-      spacing={7}
+      spacing={14}
     >
-      <Box marginY={10} marginX={5}>
+      <Box my={5} mx={5}>
         <Image
           src="/images/streamtyl-logo.svg"
           height={35}

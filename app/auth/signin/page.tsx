@@ -25,7 +25,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiHide, BiShow } from "react-icons/bi";
-import AuthLayout from "@/components/layouts/auth-layout";
 // import { _login } from "../../../lib/api/auth.api";
 import { setAccessToken } from "../../../lib/utils";
 import { LoginFields } from "@/lib/schema/signin.schema";
@@ -62,165 +61,149 @@ const Signin = () => {
   };
 
   return (
-    <AuthLayout>
-      <Container>
-        <VStack spacing={4}>
-          <Box>
-            <Text
-              fontSize="4xl"
-              color="#fff"
-              textAlign="center"
-              fontWeight="semibold"
-            >
-              Sign In
-            </Text>
-          </Box>
-          <Box>
-            <Text color="#fff" textAlign="center">
-              Welcome. Please enter your details
-            </Text>
-          </Box>
-        </VStack>
+    <Container>
+      <VStack spacing={4}>
+        <Box>
+          <Text
+            fontSize="4xl"
+            color="#fff"
+            textAlign="center"
+            fontWeight="semibold"
+          >
+            Sign In
+          </Text>
+        </Box>
+        <Box>
+          <Text color="#fff" textAlign="center">
+            Welcome. Please enter your details
+          </Text>
+        </Box>
+      </VStack>
 
-        <form onSubmit={handleSubmit(login)}>
-          <Stack mt={10} spacing={5}>
-            <FormControl isInvalid={errors.username ? true : false}>
-              <FormLabel htmlFor="username" color="#fff">
-                Username
-              </FormLabel>
-              <Controller
-                name="username"
-                control={control}
-                defaultValue={""}
-                rules={{ required: true }}
-                render={({ field }) => (
+      <form onSubmit={handleSubmit(login)}>
+        <Stack mt={10} spacing={5}>
+          <FormControl isInvalid={errors.username ? true : false}>
+            <FormLabel htmlFor="username" color="#fff">
+              Username
+            </FormLabel>
+            <Controller
+              name="username"
+              control={control}
+              defaultValue={""}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Enter username"
+                  variant="outline"
+                  {...field}
+                  color="#fff"
+                />
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ message }) => (
+                <Text paddingY={2} fontSize="sm" color="#fff">
+                  {message}
+                </Text>
+              )}
+            />
+          </FormControl>
+
+          <FormControl isInvalid={errors.password ? true : false}>
+            <FormLabel htmlFor="password" color="#fff">
+              Password
+            </FormLabel>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue={""}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <InputGroup>
                   <Input
-                    id="username"
-                    type="text"
-                    placeholder="Enter username"
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter password"
                     variant="outline"
                     {...field}
                     color="#fff"
                   />
-                )}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="username"
-                render={({ message }) => (
-                  <Text paddingY={2} fontSize="sm" color="#fff">
-                    {message}
-                  </Text>
-                )}
-              />
-            </FormControl>
-
-            <FormControl isInvalid={errors.password ? true : false}>
-              <FormLabel htmlFor="password" color="#fff">
-                Password
-              </FormLabel>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue={""}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <InputGroup>
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter password"
-                      variant="outline"
-                      {...field}
-                      color="#fff"
+                  <InputRightElement width={14}>
+                    <IconButton
+                      icon={
+                        showPassword ? (
+                          <BiHide size={22} />
+                        ) : (
+                          <BiShow size={22} />
+                        )
+                      }
+                      aria-label="show password"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      variant="link"
+                      colorScheme={"gray"}
                     />
-                    <InputRightElement width={14}>
-                      <IconButton
-                        icon={
-                          showPassword ? (
-                            <BiHide size={22} />
-                          ) : (
-                            <BiShow size={22} />
-                          )
-                        }
-                        aria-label="show password"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        variant="link"
-                        colorScheme={"gray"}
-                      />
-                    </InputRightElement>
-                  </InputGroup>
-                )}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="password"
-                render={({ message }) => (
-                  <Text paddingY={2} fontSize="sm" color="#fff">
-                    {message}
-                  </Text>
-                )}
-              />
-            </FormControl>
+                  </InputRightElement>
+                </InputGroup>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ message }) => (
+                <Text paddingY={2} fontSize="sm" color="#fff">
+                  {message}
+                </Text>
+              )}
+            />
+          </FormControl>
 
-            <HStack justifyContent="space-between" w="full">
-              <Checkbox defaultChecked color="#fff" colorScheme="primary">
-                Remember me
-              </Checkbox>
+          <HStack justifyContent="space-between" w="full">
+            <Checkbox defaultChecked color="#fff" colorScheme="primary">
+              Remember me
+            </Checkbox>
+          </HStack>
 
-              <NextLink href="/auth/forgot-password" passHref>
-                <Link
-                  as="span"
-                  fontSize="sm"
-                  color="white"
-                  transition="all ease-in-out 300ms"
-                  _hover={{
-                    color: "primary.500",
-                  }}
-                >
-                  Forgot Password?
-                </Link>
-              </NextLink>
-            </HStack>
+          <Box pt={5}>
+            <Button
+              // isLoading={isLoading}
+              w="full"
+              size="lg"
+              onClick={handleSubmit(login)}
+              bg="primary.500"
+              color="white"
+            >
+              Signin
+            </Button>
+          </Box>
 
-            <Box pt={5}>
-              <Button
-                // isLoading={isLoading}
-                w="full"
-                size="lg"
-                onClick={handleSubmit(login)}
-                bg="primary.500"
+          <HStack alignItems="center" justifyContent="center">
+            <NextLink href="/auth/signup" passHref>
+              <Link
+                as="span"
+                fontSize="sm"
                 color="white"
+                transition="all ease-in-out 300ms"
+                _hover={{
+                  color: "primary.500",
+                }}
               >
-                Signin
-              </Button>
-            </Box>
+                Don&apos;t have an account? Sign up
+              </Link>
+            </NextLink>
+          </HStack>
 
-            <HStack alignItems="center" justifyContent="center">
-              <NextLink href="/auth/signup" passHref>
-                <Link
-                  as="span"
-                  fontSize="sm"
-                  color="white"
-                  transition="all ease-in-out 300ms"
-                  _hover={{
-                    color: "primary.500",
-                  }}
-                >
-                  Don&apos;t have an account? Signup
-                </Link>
-              </NextLink>
-            </HStack>
-
-            {errorResponse !== "" && (
-              <Text textAlign="center" pt={7} fontSize="xl" color="#fff">
-                {errorResponse}!
-              </Text>
-            )}
-          </Stack>
-        </form>
-      </Container>
-    </AuthLayout>
+          {errorResponse !== "" && (
+            <Text textAlign="center" pt={7} fontSize="xl" color="#fff">
+              {errorResponse}!
+            </Text>
+          )}
+        </Stack>
+      </form>
+    </Container>
   );
 };
 
