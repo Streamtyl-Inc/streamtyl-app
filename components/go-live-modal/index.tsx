@@ -19,7 +19,7 @@ import { useRef, useState, useContext, useEffect } from "react";
 import { Montserrat } from "next/font/google";
 import { MdArrowDropDown } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCreateStream } from "@livepeer/react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";

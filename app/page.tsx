@@ -1,11 +1,13 @@
+"use client";
+
 import React from "react";
 import { Stack, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
 import { BsCameraReelsFill } from "react-icons/bs";
-import RootLayout from "./layout";
-// import LivestreamTab from "../../components/Live/LivestreamTab";
-// import GoLiveModal from "../../components/Live/GoLiveModal";
+import GoLiveModal from "@/components/go-live-modal";
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Stack
       w="full"
@@ -32,12 +34,12 @@ export default function Home() {
         pl={3}
         pos="absolute"
         right={7}
-        // onClick={() => onOpen()}
+        onClick={onOpen}
       >
         Go Live
       </Button>
 
-      {/* <GoLiveModal onClose={onClose} isOpen={isOpen} /> */}
+      <GoLiveModal onClose={onClose} isOpen={isOpen} />
     </Stack>
   );
 }
