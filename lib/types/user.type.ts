@@ -14,3 +14,21 @@ export type Wallet = {
   created_at: string;
   updated_at: string;
 };
+
+export interface Profile {
+  id: string | null;
+  firstname: string | null;
+  lastname: string | null;
+  username: string | null;
+  country: string | null;
+  state: string | null;
+  dob: string | null;
+  bio: string | null;
+  verified: boolean;
+  gender: string | null;
+  website: string | null;
+  avatar: BucketImage | null;
+  cover: BucketImage | null;
+  followers_count: number;
+  follwing_count: number;
+}
