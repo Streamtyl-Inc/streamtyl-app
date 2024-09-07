@@ -19,20 +19,25 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage } from "@hookform/error-message";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiHide, BiShow } from "react-icons/bi";
-// import { _login } from "../../../lib/api/auth.api";
+import { _login } from "../../../lib/api/auth.api";
 import { setAccessToken } from "../../../lib/utils";
 import { LoginFields } from "@/lib/schema/signin.schema";
+import { QueryKeys } from "@/lib/constants/keys";
 
 const Signin = () => {
   const [errorResponse, setErrorResponse] = useState("");
-  const { replace } = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+
+  const queryClient = useQueryClient();
 
   const {
     handleSubmit,
@@ -40,24 +45,27 @@ const Signin = () => {
     formState: { errors },
   } = useForm<LoginFields>({ resolver: classValidatorResolver(LoginFields) });
 
-  //   const { mutate, isLoading } = useMutation({
-  //     mutationFn: _login,
-  //     onSuccess: (data) => {
-  //       setAccessToken(data.data.access_token);
-  //       replace((query?.redirect as string) ?? "/home");
-  //     },
-  //     onError: (error: any) => {
-  //       if (error?.response?.data) {
-  //         setErrorResponse(error?.response?.data?.message);
-  //       } else {
-  //         setErrorResponse(error.message);
-  //       }
-  //     },
-  //   });
+  const { mutate, isPending } = useMutation({
+    mutationFn: _login,
+    onSuccess: (data) => {
+      setAccessToken(data.data.access_token);
+      replace(searchParams.get("redirect") ?? "/");
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.GET_USER_PROFILE],
+      });
+    },
+    onError: (error: any) => {
+      if (error?.response?.data) {
+        setErrorResponse(error?.response?.data?.message);
+      } else {
+        setErrorResponse(error.message);
+      }
+    },
+  });
 
   const login: SubmitHandler<LoginFields> = async (data) => {
     setErrorResponse("");
-    // mutate(data);
+    mutate(data);
   };
 
   return (
@@ -169,7 +177,7 @@ const Signin = () => {
 
           <Box pt={5}>
             <Button
-              // isLoading={isLoading}
+              isLoading={isPending}
               w="full"
               size="lg"
               onClick={handleSubmit(login)}

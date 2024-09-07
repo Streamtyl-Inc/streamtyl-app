@@ -25,7 +25,7 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiHide, BiShow } from "react-icons/bi";
 import { SignupFields } from "@/lib/schema/signup.schema";
-// import { _signup } from "../../../lib/api/auth.api";
+import { _signup } from "../../../lib/api/auth.api";
 
 const Signup = () => {
   const [agreement, setAgreement] = useState(false);
@@ -41,23 +41,23 @@ const Signup = () => {
     formState: { errors },
   } = useForm<SignupFields>({ resolver: classValidatorResolver(SignupFields) });
 
-  //   const { mutate, isLoading } = useMutation({
-  //     mutationFn: _signup,
-  //     onSuccess: (data) => {
-  //       replace("/auth/login");
-  //     },
-  //     onError: (error: any) => {
-  //       if (error?.response?.data) {
-  //         setErrorResponse(error?.response?.data?.message);
-  //       } else {
-  //         setErrorResponse(error.message);
-  //       }
-  //     },
-  //   });
+  const { mutate, isPending } = useMutation({
+    mutationFn: _signup,
+    onSuccess: (data) => {
+      replace("/auth/login");
+    },
+    onError: (error: any) => {
+      if (error?.response?.data) {
+        setErrorResponse(error?.response?.data?.message);
+      } else {
+        setErrorResponse(error.message);
+      }
+    },
+  });
 
   const signup: SubmitHandler<SignupFields> = async (data) => {
     setErrorResponse("");
-    // mutate(data);
+    mutate(data);
   };
 
   return (
@@ -194,7 +194,7 @@ const Signup = () => {
 
           <Box pt={5}>
             <Button
-              // isLoading={isLoading}
+              isLoading={isPending}
               w="full"
               size="lg"
               onClick={handleSubmit(signup)}
