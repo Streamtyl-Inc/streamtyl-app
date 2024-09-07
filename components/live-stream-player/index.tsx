@@ -33,8 +33,6 @@ const LivestreamVideoPlayer = ({
   const [cam, setCam] = useState(false);
   const [sharing, setSharing] = useState(false);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const { replace } = useRouter();
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -119,7 +117,6 @@ const LivestreamVideoPlayer = ({
     setCam(false);
     if (stream) {
       const tracks = stream.getTracks();
-
       tracks.forEach((track) => {
         track.stop();
       });
@@ -129,7 +126,7 @@ const LivestreamVideoPlayer = ({
   const endLive = async () => {
     socket?.close();
     endStream();
-    replace("/live");
+    replace("/");
   };
 
   const reconnect = () => {
@@ -288,23 +285,12 @@ const LivestreamVideoPlayer = ({
             background="#C71F1F"
             color={"white"}
             borderRadius="lg"
-            // onClick={() => onOpen()}
+            onClick={() => endLive()}
           />
         </Tooltip>
       </HStack>
-      {/* 
-      <SaveVideoModal
-        isOpen={isOpen}
-        onClose={onClose}
-        streamId={streamId as string}
-        streamAuthId={streamAuthId}
-        endStream={endLive}
-      /> */}
     </Stack>
   );
 };
 
 export default LivestreamVideoPlayer;
-function setLive(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

@@ -2,7 +2,6 @@ import {
   Stack,
   Text,
   HStack,
-  Image,
   Button,
   Avatar,
   IconButton,
@@ -12,14 +11,10 @@ import {
   MenuItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
 import { ViewIcon } from "@chakra-ui/icons";
 import { HiSignal } from "react-icons/hi2";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdVerified, MdOutlineRemoveRedEye } from "react-icons/md";
 import { IoWalletOutline } from "react-icons/io5";
-import { CiCircleMinus } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import { UserStream } from "@/lib/types/stream.type";
 import Link from "next/link";
 import { usePlaybackInfo } from "@livepeer/react";
@@ -49,7 +44,7 @@ const StreamCard = ({ stream }: Props) => {
           <Stack
             h="full"
             w="full"
-            bgImage={`url(${stream?.thumbnail.url})`}
+            bgImage={`url(${stream.thumbnail.url})`}
             bgRepeat="no-repeat"
             bgSize="cover"
             bgColor="inherit"
@@ -72,7 +67,7 @@ const StreamCard = ({ stream }: Props) => {
           >
             <ViewIcon fontSize={23} />
             <Text fontWeight="medium">
-              {NumberFormatter.format(Number(stream?.watch_count))}
+              {NumberFormatter.format(Number(stream.watch_count))}
             </Text>
           </HStack>
 
@@ -96,11 +91,11 @@ const StreamCard = ({ stream }: Props) => {
       <HStack justifyContent="space-between" alignItems="flex-start">
         <HStack alignItems="flex-start" spacing={3}>
           <Avatar
-            src={stream?.auth.profile.avatar?.url}
-            name={`${stream?.auth.profile.firstname} ${stream?.auth.profile.lastname}`}
+            src={stream.auth.profile.avatar?.url}
+            name={`${stream.auth.profile.firstname} ${stream.auth.profile.lastname}`}
           />
           <Stack spacing={0.5}>
-            <Text>{`${stream?.auth.profile.firstname} ${stream?.auth.profile.lastname}`}</Text>
+            <Text>{`${stream.auth.profile.firstname} ${stream.auth.profile.lastname}`}</Text>
 
             <Text
               fontWeight="medium"
@@ -108,7 +103,7 @@ const StreamCard = ({ stream }: Props) => {
               lineHeight="short"
               textTransform="capitalize"
             >
-              {stream?.stream_name}
+              {stream.stream_name}
             </Text>
           </Stack>
         </HStack>
@@ -129,27 +124,6 @@ const StreamCard = ({ stream }: Props) => {
               <HStack gap={2.5} color="inherit" fontWeight="medium">
                 <IoWalletOutline />
                 <Text color="inherit">Tip</Text>
-              </HStack>
-            </MenuItem>
-
-            <MenuItem bg="inherit">
-              <HStack gap={2.5} color="inherit" fontWeight="medium">
-                <MdOutlineRemoveRedEye />
-                <Text color="inherit">View Profile</Text>
-              </HStack>
-            </MenuItem>
-
-            <MenuItem bg="inherit">
-              <HStack gap={2.5} color="inherit" fontWeight="medium">
-                <CiCircleMinus />
-                <Text color="inherit">Unfollow</Text>
-              </HStack>
-            </MenuItem>
-
-            <MenuItem bg="inherit">
-              <HStack gap={2.5} color="inherit" fontWeight="medium">
-                <IoIosNotificationsOutline />
-                <Text color="inherit">Turn off notification</Text>
               </HStack>
             </MenuItem>
           </MenuList>

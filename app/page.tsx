@@ -1,25 +1,33 @@
 "use client";
 
-import React from "react";
-import { Stack, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
+import {
+  Stack,
+  Text,
+  Button,
+  Box,
+  useDisclosure,
+  Center,
+  Spinner,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import { BsCameraReelsFill } from "react-icons/bs";
 import GoLiveModal from "@/components/go-live-modal";
 import StreamCard from "@/components/stream-card";
 import { useQuery } from "@tanstack/react-query";
+import { _getStreams } from "@/lib/api/live.api";
+import { QueryKeys } from "@/lib/constants/keys";
 
 export default function Home() {
+  const [page, setPage] = useState(1);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  //  const {  data, isLoading } = useQuery({
-  //    queryKey: ["live-page-streams"],
-  //    queryFn: () => _getStreams(page),
-  //    onSuccess: (data) => {
-  //      setStreams((prev) => [...prev, ...data.data.data]);
-  //      setPage((prev) => prev + 1);
-  //    },
-  //    refetchOnWindowFocus: false,
-  //    refetchInterval: false,
-  //  });
+  const { data: streams, isLoading } = useQuery({
+    queryKey: [QueryKeys.GET_STREAMS, page],
+    queryFn: () => _getStreams(page),
+  });
 
   return (
     <Stack
@@ -55,34 +63,38 @@ export default function Home() {
       <GoLiveModal onClose={onClose} isOpen={isOpen} />
 
       <Stack px={7} spacing={3} h="full">
-        {/* {streams.length > 0 && (
-          <Grid
-            w="full"
-            rowGap={7}
-            columnGap={5}
-            templateColumns="repeat(4, 1fr)"
-          >
-            {streams.map((stream, index) => (
-              <GridItem key={stream.id}>
-                <StreamCard stream={stream} />
-              </GridItem>
-            ))}
-          </Grid>
-        )} */}
+        {!isLoading &&
+          streams &&
+          streams.data &&
+          streams.data.data &&
+          streams.data.data.length > 0 && (
+            <Grid
+              w="full"
+              rowGap={7}
+              columnGap={5}
+              templateColumns="repeat(4, 1fr)"
+            >
+              {streams.data.data.map((stream) => (
+                <GridItem key={stream.id}>
+                  <StreamCard stream={stream} />
+                </GridItem>
+              ))}
+            </Grid>
+          )}
 
-        {/* {loading && (
+        {isLoading && (
           <Center py={10}>
             <Spinner color="primary.600" />
           </Center>
-        )} */}
+        )}
 
-        {/* {!loading && !hasMore && (
+        {!isLoading && streams?.data.data.length === 0 && (
           <Center py={10}>
             <Text textAlign="center" fontWeight="semibold">
-              No more streams.
+              No streams yet.
             </Text>
           </Center>
-        )} */}
+        )}
       </Stack>
     </Stack>
   );

@@ -22,7 +22,7 @@ import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NextLink from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiHide, BiShow } from "react-icons/bi";
 import { _login } from "../../../lib/api/auth.api";
@@ -215,4 +215,12 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+const SigninPage = () => {
+  return (
+    <Suspense>
+      <Signin />
+    </Suspense>
+  );
+};
+
+export default SigninPage;

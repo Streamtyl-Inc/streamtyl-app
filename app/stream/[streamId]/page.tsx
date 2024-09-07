@@ -1,4 +1,6 @@
-import { ReactElement, useContext } from "react";
+"use client";
+
+import { useEffect } from "react";
 import {
   Avatar,
   Center,
@@ -7,15 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import { useQuery, useMutation } from "@tanstack/react-query";
-// import { QueryKeys } from "../../../lib/constants/keys";
-// import {
-//   _getLivepeerRecordedStream,
-//   _getStream,
-//   _watchStream,
-// } from "../../../lib/api/live.api";
 import StreamPlayer from "@/components/stream-player";
 import { Player } from "@livepeer/react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
@@ -24,54 +18,41 @@ import { usePlaybackInfo } from "@livepeer/react";
 import { Spinner } from "@chakra-ui/react";
 import StreamLiveChat from "@/components/stream-live-chat";
 import FriendList from "@/components/friend-list";
-import { MdVerified } from "react-icons/md";
+import { QueryKeys } from "@/lib/constants/keys";
+import { _getLivepeerRecordedStream, _getStream } from "@/lib/api/live.api";
 
 type Props = {
   params: { streamId: string };
 };
 
 const Streams = ({ params: { streamId } }: Props) => {
-  const { query } = useRouter();
+  const { isLoading: streamLoading, data: stream } = useQuery({
+    queryKey: [QueryKeys.GET_STREAMED_LIVE, streamId],
+    queryFn: () => _getStream(streamId as string),
+    enabled: !!streamId,
+  });
 
-  // const {
-  //   mutate,
-  //   isLoading: videoLoading,
-  //   data: recordedVideo,
-  // } = useMutation({
-  //   mutationFn: _getLivepeerRecordedStream,
-  // });
+  const { data: playbackInfo } = usePlaybackInfo({
+    playbackId: stream?.data.playback_id,
+    refetchInterval: false,
+    retry: 0,
+  });
 
-  // const { isLoading, data: stream } = useQuery({
-  //   queryKey: [QueryKeys.GET_STREAMED_LIVE, query.stream],
-  //   queryFn: () => _getStream(query.stream as string),
-  //   onSuccess: async (data) => {
-  //     mutate(data.data.stream_id);
-  //   },
-  //   enabled: !!query.stream,
-  //   refetchOnWindowFocus: false,
-  // });
+  const {
+    mutate,
+    isPending,
+    data: recordedVideo,
+  } = useMutation({
+    mutationFn: _getLivepeerRecordedStream,
+  });
 
-  // const { data: playbackInfo } = usePlaybackInfo({
-  //   playbackId: stream?.data.playback_id,
-  //   refetchInterval: false,
-  //   retry: 0,
-  // });
+  useEffect(() => {
+    if (!isLoading && stream && stream.data) mutate(stream.data.id);
+  }, [stream]);
 
-  // const videoDetails: Session[] = recordedVideo?.data ?? [];
+  const videoDetails: Session[] = recordedVideo?.data ?? [];
 
-  // const loading = isLoading || videoLoading;
-
-  // const watchStream = useQuery({
-  //   queryKey: [QueryKeys.WATCH_STREAM, query.stream],
-  //   queryFn: () => _watchStream(query.stream as string),
-  //   retry: 0,
-  //   refetchInterval: false,
-  //   refetchOnMount: false,
-  //   refetchOnWindowFocus: false,
-  //   refetchIntervalInBackground: false,
-  //   refetchOnReconnect: false,
-  //   enabled: !!query.stream && !!playbackInfo && playbackInfo.meta.live,
-  // });
+  const isLoading = isPending || streamLoading;
 
   return (
     <>
@@ -86,7 +67,7 @@ const Streams = ({ params: { streamId } }: Props) => {
           onClick={() => history.back()}
         />
 
-        {/* {!loading && stream && (
+        {!isLoading && stream && stream.data && (
           <Stack spacing={10}>
             <Stack>
               {playbackInfo?.meta.live ? (
@@ -104,35 +85,27 @@ const Streams = ({ params: { streamId } }: Props) => {
                   {stream?.data.stream_name}
                 </Text>
 
-                <Link href={`/${stream?.data.auth.username}`} passHref>
-                  <HStack alignItems="flex-start" spacing={3}>
-                    <Avatar
-                      src={stream?.data.auth.profile.avatar?.url}
-                      name={`${stream?.data.auth.profile.firstname} ${stream?.data.auth.profile.lastname}`}
-                    />
+                <HStack alignItems="flex-start" spacing={3}>
+                  <Avatar
+                    src={stream?.data.auth.profile.avatar?.url}
+                    name={`${stream?.data.auth.profile.firstname} ${stream?.data.auth.profile.lastname}`}
+                  />
 
-                    <Stack spacing={0}>
-                      <HStack spacing={2}>
-                        <Text color="#FFFFFFE5">{`${stream?.data.auth.profile.firstname} ${stream?.data.auth.profile.lastname}`}</Text>
-                        {verified && (
-                          <MdVerified
-                            color="#DB242D"
-                            style={{ marginTop: -7 }}
-                          />
-                        )}
-                      </HStack>
+                  <Stack spacing={0}>
+                    <HStack spacing={2}>
+                      <Text color="#FFFFFFE5">{`${stream.data.auth.profile.firstname} ${stream.data.auth.profile.lastname}`}</Text>
+                    </HStack>
 
-                      <Text
-                        color="#ACACACE5"
-                        fontWeight="medium"
-                        fontSize="sm"
-                        lineHeight="short"
-                      >
-                        @{stream?.data.auth.username}
-                      </Text>
-                    </Stack>
-                  </HStack>
-                </Link>
+                    <Text
+                      color="#ACACACE5"
+                      fontWeight="medium"
+                      fontSize="sm"
+                      lineHeight="short"
+                    >
+                      @{stream.data.auth.username}
+                    </Text>
+                  </Stack>
+                </HStack>
               </Stack>
             </Stack>
 
@@ -153,13 +126,13 @@ const Streams = ({ params: { streamId } }: Props) => {
               </Stack>
             </HStack>
           </Stack>
-        )} */}
-        {/* 
-        {loading && (
+        )}
+
+        {isLoading && (
           <Center py={5} h="40vh">
             <Spinner color="#C71F1F" size="lg" />
           </Center>
-        )} */}
+        )}
       </Stack>
     </>
   );
