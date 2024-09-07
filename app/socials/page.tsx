@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import { useState } from "react";
 import {
   HStack,
   Box,
@@ -12,7 +12,6 @@ import CreatePost from "../../components/Feeds/CreatePost";
 import Post from "@/components/post";
 import { _getPosts } from "../../lib/api/post.api";
 import { useQuery } from "@tanstack/react-query";
-import { PostData } from "../../lib/types/post.type";
 import { QueryKeys } from "../../lib/constants/keys";
 
 const Feeds = () => {
@@ -41,8 +40,12 @@ const Feeds = () => {
           >
             <CreatePost />
             <VStack spacing={5}>
-              {postData?.data?.data?.length !== 0 ? (
-                postData?.data?.data?.map((post: PostData) => (
+              {!isLoading &&
+              postData &&
+              postData.data &&
+              postData.data.data &&
+              postData.data.data.length !== 0 ? (
+                postData.data.data.map((post) => (
                   <Post post={post} key={post.id} page={page} />
                 ))
               ) : (

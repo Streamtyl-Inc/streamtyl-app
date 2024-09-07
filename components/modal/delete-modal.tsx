@@ -17,9 +17,10 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   postId: string;
+  page: number;
 };
 
-const DeleteModal = ({ isOpen, onClose, postId }: Props) => {
+const DeleteModal = ({ isOpen, onClose, postId, page }: Props) => {
   const bgColor = useColorModeValue("#EEECEC", "#262323");
   const textColor = useColorModeValue("black", "white");
 
@@ -29,7 +30,7 @@ const DeleteModal = ({ isOpen, onClose, postId }: Props) => {
     mutationFn: _deletePost,
     onSuccess: () => {
       onClose();
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_POSTS] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_POSTS, page] });
     },
   });
 

@@ -45,15 +45,15 @@ import {
 import NextLink from "next/link";
 import DeleteModal from "../modal/delete-modal";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useAuthUser } from "@/lib/hooks/auth-user.hook";
 
 type Props = {
   post: PostData;
-  page?: number;
+  page: number;
 };
 
 const Post = ({ post, page }: Props) => {
-  //   const { avatar, firstname, lastname } = useContext(ProfileContext);
-  //   const { id } = useContext(AuthContext);
+  const { user } = useAuthUser();
 
   const {
     isOpen: deleteModal,
@@ -108,7 +108,7 @@ const Post = ({ post, page }: Props) => {
                 <BsThreeDotsVertical />
               </MenuButton>
               <MenuList bg="#111010" fontSize="xs" color="#D3D3D3">
-                {post.auth.id === id && (
+                {post.auth.id === user?.data.id && (
                   <>
                     <MenuItem bg="inherit" onClick={openDeleteModal}>
                       <HStack gap={2} color="inherit" fontWeight="medium">
@@ -165,6 +165,7 @@ const Post = ({ post, page }: Props) => {
         isOpen={deleteModal}
         onClose={closeDeleteModal}
         postId={post.id}
+        page={page}
       />
     </>
   );
