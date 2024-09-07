@@ -20,7 +20,7 @@ type Props = {
   page: number;
 };
 
-const DeleteModal = ({ isOpen, onClose, postId, page }: Props) => {
+const DeletePostModal = ({ isOpen, onClose, postId, page }: Props) => {
   const bgColor = useColorModeValue("#EEECEC", "#262323");
   const textColor = useColorModeValue("black", "white");
 
@@ -66,4 +66,4 @@ const DeleteModal = ({ isOpen, onClose, postId, page }: Props) => {
   );
 };
 
-export default DeleteModal;
+export default DeletePostModal;

@@ -1,51 +1,27 @@
 import React, { useState, useContext } from "react";
 import {
-  Box,
   HStack,
   Text,
-  Button,
   Avatar,
   VStack,
-  IconButton,
   Image,
-  Input,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  FormControl,
-  Collapse,
   useDisclosure,
-  Center,
-  Stack,
-  Spinner,
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { BsThreeDotsVertical, BsPin } from "react-icons/bs";
-import { BiCommentDetail, BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { TbTrash } from "react-icons/tb";
-import { TiEdit } from "react-icons/ti";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { _getPosts } from "../../lib/api/post.api";
 import { PostData } from "../../lib/types/post.type";
-import { NumberFormatter, checkTimeWindow } from "../../lib/utils";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { IsString, MinLength } from "class-validator";
-import {
-  _postComment,
-  _getPostComments,
-  _deletePost,
-  _likePost,
-  _unlikePost,
-  _verifyLike,
-} from "../../lib/api/post.api";
 import NextLink from "next/link";
-import DeleteModal from "../modal/delete-modal";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useAuthUser } from "@/lib/hooks/auth-user.hook";
+import DeletePostModal from "../modal/delete-post";
 
 type Props = {
   post: PostData;
@@ -160,8 +136,7 @@ const Post = ({ post, page }: Props) => {
         )}
       </VStack>
 
-      {/* Modals */}
-      <DeleteModal
+      <DeletePostModal
         isOpen={deleteModal}
         onClose={closeDeleteModal}
         postId={post.id}
