@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
+import { HStack, Stack } from "@chakra-ui/react";
+import SideBar from "@/components/sidebar";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -25,7 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <HStack alignItems="flex-start" w="full" justifyContent="flex-start">
+            <Stack w="fit-content">
+              <SideBar />
+            </Stack>
+            <Stack as="main" w="full" className="no-scrollbar">
+              {children}
+            </Stack>
+          </HStack>
+        </Providers>
       </body>
     </html>
   );

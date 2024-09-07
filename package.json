@@ -9,18 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^3.9.0",
     "@livepeer/react": "^2.9.2",
     "@tanstack/react-query": "^5.53.3",
+    "axios": "^1.7.7",
+    "browser-image-compression": "^2.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.3.31",
     "livepeer": "^3.3.1",
+    "nanoid": "^5.0.7",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
-    "zod": "^3.23.8"
+    "react-easy-crop": "^5.0.8",
+    "react-hook-form": "^7.53.0",
+    "react-icons": "^5.3.0",
+    "universal-cookie": "^7.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",
