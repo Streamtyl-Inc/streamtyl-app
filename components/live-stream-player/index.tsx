@@ -14,7 +14,7 @@ import { MdCallEnd, MdOutlineDesktopAccessDisabled } from "react-icons/md";
 import { AiOutlineAudioMuted } from "react-icons/ai";
 import { PiWebcamSlashBold } from "react-icons/pi";
 import { TbScreenShare } from "react-icons/tb";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type Props = {
   streamKey: string | undefined;

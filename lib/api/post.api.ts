@@ -7,12 +7,12 @@ export const _createPost = async (post_text: string, imageFiles: string[]) => {
   const formData = new FormData();
   formData.append("post_text", post_text);
 
-  for (const file of Array.from(imageFiles)) {
-    const imageFile = CropperService.base64StringtoFile(file, nanoid());
-    formData.append("files", imageFile, imageFile.name);
-  }
+  // for (const file of Array.from(imageFiles)) {
+  //   const imageFile = CropperService.base64StringtoFile(file, nanoid());
+  //   formData.append("files", imageFile, imageFile.name);
+  // }
 
-  return await axiosUploadConfig.post("/post", formData);
+  return await axiosConfig.post("/post", formData);
 };
 
 export const _editPost = async (payload: {

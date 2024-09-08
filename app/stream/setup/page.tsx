@@ -37,7 +37,7 @@ const StreamSetup = () => {
   });
 
   return (
-    <Stack px={7} mt={3} pos="relative">
+    <Stack px={7} mt={5} alignItems="flex-start">
       <IconButton
         aria-label="Back"
         rounded="full"
@@ -45,9 +45,6 @@ const StreamSetup = () => {
         colorScheme="gray"
         icon={<FaLongArrowAltLeft />}
         onClick={() => history.back()}
-        pos="absolute"
-        zIndex={99}
-        left={7}
       />
 
       {!isLoading && stream && stream.data && (
@@ -55,7 +52,7 @@ const StreamSetup = () => {
           <Stack
             w="full"
             h="full"
-            bg="232222"
+            bg="#232222"
             pb={16}
             px={16}
             pt={10}

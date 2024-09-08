@@ -30,6 +30,9 @@ const Streams = ({ params: { streamId } }: Props) => {
     queryKey: [QueryKeys.GET_STREAMED_LIVE, streamId],
     queryFn: () => _getStream(streamId as string),
     enabled: !!streamId,
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   const { data: playbackInfo } = usePlaybackInfo({
@@ -56,7 +59,7 @@ const Streams = ({ params: { streamId } }: Props) => {
 
   return (
     <>
-      <Stack px={7}>
+      <Stack px={7} pt={4} spacing={6}>
         <IconButton
           aria-label="Back"
           rounded="full"
@@ -85,26 +88,12 @@ const Streams = ({ params: { streamId } }: Props) => {
                   {stream?.data.stream_name}
                 </Text>
 
-                <HStack alignItems="flex-start" spacing={3}>
+                <HStack spacing={3}>
                   <Avatar
-                    src={stream?.data.auth.profile.avatar?.url}
-                    name={`${stream?.data.auth.profile.firstname} ${stream?.data.auth.profile.lastname}`}
+                    src={stream?.data.user.avatar?.url}
+                    name={`${stream?.data.user.firstname} ${stream?.data.user.lastname}`}
                   />
-
-                  <Stack spacing={0}>
-                    <HStack spacing={2}>
-                      <Text color="#FFFFFFE5">{`${stream.data.auth.profile.firstname} ${stream.data.auth.profile.lastname}`}</Text>
-                    </HStack>
-
-                    <Text
-                      color="#ACACACE5"
-                      fontWeight="medium"
-                      fontSize="sm"
-                      lineHeight="short"
-                    >
-                      @{stream.data.auth.username}
-                    </Text>
-                  </Stack>
+                  <Text color="#FFFFFFE5">{`${stream.data.user.firstname} ${stream.data.user.lastname}`}</Text>
                 </HStack>
               </Stack>
             </Stack>

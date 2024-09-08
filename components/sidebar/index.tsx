@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useUser } from "@/lib/hooks/user.hook";
 import { useCallback, useEffect } from "react";
 import LogoutModal from "../modal/logout";
+import Link from "next/link";
 
 type Props = {};
 
@@ -36,7 +37,7 @@ const SideBar = (props: Props) => {
     {
       id: nanoid(),
       name: "Home",
-      label: "home",
+      label: "stream",
       href: "/",
       icon: <IoMdHome size={25} />,
     },
@@ -70,14 +71,16 @@ const SideBar = (props: Props) => {
       bg="#141414"
     >
       <Stack spacing={10} w="full">
-        <Stack w="full">
-          <Image
-            src="/images/streamtyl-logo.svg"
-            height={35}
-            width={35}
-            alt="streamtyl"
-          />
-        </Stack>
+        <Link href="/" passHref>
+          <Stack w="full">
+            <Image
+              src="/images/streamtyl-logo.svg"
+              height={35}
+              width={35}
+              alt="streamtyl"
+            />
+          </Stack>
+        </Link>
 
         <Stack as="nav" spacing={3}>
           {sidebarlinks.map((link) => (
@@ -90,13 +93,11 @@ const SideBar = (props: Props) => {
                   alignItems="center"
                   gap={2}
                   color={
-                    pathname.includes("/")
-                      ? pathname.includes("/stream")
-                        ? "#C71F1F"
-                        : pathname === link.href
-                        ? "#C71F1F"
-                        : ""
-                      : "#C71F1F"
+                    pathname === "/" && link.href === "/"
+                      ? "#C71F1F"
+                      : pathname.includes(link.label) && link.href !== "/"
+                      ? "#C71F1F"
+                      : ""
                   }
                   className={
                     !pathname.includes(link.href) ? "sidebar-icon-color" : ""

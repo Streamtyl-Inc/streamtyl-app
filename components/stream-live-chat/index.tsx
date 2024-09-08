@@ -7,14 +7,13 @@ import {
   Spinner,
   Box,
 } from "@chakra-ui/react";
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-// import { QueryKeys } from "../../../lib/constants/keys";
-// import { _getStreamComments } from "../../../lib/api/live.api";
-// import CreateComment from "./CreateComment";
+import { _getStreamComments } from "@/lib/api/live.api";
 import Link from "next/link";
 import { StreamComment } from "@/lib/types/stream.type";
 import CreateComment from "../create-comment";
+import { QueryKeys } from "@/lib/constants/keys";
 
 type Props = {
   id: string;
@@ -30,16 +29,32 @@ const StreamLiveChat = ({ id }: Props) => {
     }
   };
 
-  //   const { isLoading, data } = useQuery({
-  //     queryKey: [QueryKeys.GET_STREAM_CHATS, id],
-  //     queryFn: () => _getStreamComments(id),
-  //     onSuccess: (data) => setComments([...data.data.data].reverse()),
-  //     enabled: !!id,
-  //   });
+  const handleUniqueComments = (newComments: StreamComment[]) => {
+    setComments((prevComments) => {
+      const uniqueComments = new Map<string, StreamComment>();
 
-  //   useLayoutEffect(() => {
-  //     if (comments.length > 0) goToComment();
-  //   }, [comments]);
+      [...prevComments, ...newComments].forEach((c) => {
+        uniqueComments.set(c.id, c);
+      });
+
+      return Array.from(uniqueComments.values());
+    });
+  };
+
+  const { isLoading, data } = useQuery({
+    queryKey: [QueryKeys.GET_STREAM_CHATS, id],
+    queryFn: () => _getStreamComments(id),
+    enabled: !!id,
+  });
+
+  useLayoutEffect(() => {
+    if (comments.length > 0) goToComment();
+  }, [comments]);
+
+  useEffect(() => {
+    if (!isLoading && data && data.data && data.data.data)
+      handleUniqueComments([...data.data.data].reverse());
+  }, [data]);
 
   return (
     <Stack w="full" bg="#141414" px={5} pt={6} pb={5} spacing={0}>
@@ -71,29 +86,29 @@ const StreamLiveChat = ({ id }: Props) => {
           className="no-scrollbar"
           spacing={6}
         >
-          {/* {!isLoading &&
+          {!isLoading &&
             comments.length > 0 &&
             comments.map((comment, index) => (
               <HStack spacing={3} key={comment.id}>
-                <Link href={`/${comment.auth.username}`} passHref>
+                <Link href={`/${comment.user.username}`} passHref>
                   <Avatar
-                    src={comment.auth.profile.avatar?.url}
-                    name={`${comment.auth.profile.firstname} ${comment.auth.profile.lastname}`}
+                    src={comment.user.avatar?.url}
+                    name={`${comment.user.firstname} ${comment.user.lastname}`}
                     size="sm"
                   />
                 </Link>
 
                 <Stack spacing={0.4}>
-                  <Link href={`/${comment.auth.username}`} passHref>
+                  <Link href={`/${comment.user.username}`} passHref>
                     <Text color="#8D8A8AE5" fontSize="sm" fontWeight={500}>
-                      {`${comment.auth.profile.firstname} ${comment.auth.profile.lastname}`}
+                      {`${comment.user.firstname} ${comment.user.lastname}`}
                     </Text>
                   </Link>
 
                   <Text fontWeight={500}>{comment.comment_text}</Text>
                 </Stack>
               </HStack>
-            ))} */}
+            ))}
 
           <div
             ref={commentScroll}
@@ -104,7 +119,7 @@ const StreamLiveChat = ({ id }: Props) => {
             }}
           />
 
-          {/* {!isLoading && comments?.length === 0 && (
+          {!isLoading && comments?.length === 0 && (
             <Text textAlign="center">No Comments.</Text>
           )}
 
@@ -112,7 +127,7 @@ const StreamLiveChat = ({ id }: Props) => {
             <Center py={5}>
               <Spinner color="#C71F1F" />
             </Center>
-          )} */}
+          )}
         </Stack>
       </Stack>
 

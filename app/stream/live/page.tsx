@@ -36,24 +36,13 @@ const LiveStream = () => {
               {stream.data.stream_name}
             </Text>
 
-            <HStack alignItems="flex-start" spacing={3}>
+            <HStack spacing={3}>
               <Avatar
-                src={stream.data.auth?.profile.avatar?.url}
-                name={`${stream.data.auth?.profile.firstname} ${stream.data.auth?.profile.lastname}`}
+                src={stream.data.user.avatar?.url}
+                name={`${stream.data.user.firstname} ${stream.data.user.lastname}`}
               />
 
-              <Stack spacing={0}>
-                <Text color="#FFFFFFE5">{`${stream.data.auth?.profile.firstname} ${stream.data.auth?.profile.lastname}`}</Text>
-
-                <Text
-                  color="#ACACACE5"
-                  fontWeight="medium"
-                  fontSize="sm"
-                  lineHeight="short"
-                >
-                  @{stream.data.auth?.username}
-                </Text>
-              </Stack>
+              <Text color="#FFFFFFE5">{`${stream.data.user.firstname} ${stream.data.user.lastname}`}</Text>
             </HStack>
           </Stack>
 

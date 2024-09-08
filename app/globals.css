@@ -93,3 +93,8 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Globals */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}

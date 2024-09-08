@@ -16,17 +16,17 @@ export type Wallet = {
 };
 
 export interface Profile {
-  id: string | null;
-  firstname: string | null;
-  lastname: string | null;
-  username: string | null;
-  country: string | null;
-  state: string | null;
-  dob: string | null;
-  bio: string | null;
+  id: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  country: string;
+  state: string;
+  dob: string;
+  bio: string;
   verified: boolean;
-  gender: string | null;
-  website: string | null;
+  gender: string;
+  website: string;
   avatar: BucketImage | null;
   cover: BucketImage | null;
   followers_count: number;

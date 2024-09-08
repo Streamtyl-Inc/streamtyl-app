@@ -4,8 +4,8 @@ import { Profile } from "../types/user.type";
 import CropperService from "../../utils/cropper";
 import {
   CreateStream,
-  GetStream,
   StreamCommentsResponse,
+  UserStream,
   UserStreamsResponse,
 } from "../types/stream.type";
 import { livepeerService } from "@/utils/livepeer-client";
@@ -39,7 +39,7 @@ export const _createStream = async (payload: {
 };
 
 export const _getStream = async (streamID: string) =>
-  await axiosConfig.get<GetStream>(`/stream/${streamID}`);
+  await axiosConfig.get<UserStream>(`/stream/${streamID}`);
 
 export const _getLivepeerRecordedStream = async (id: string) =>
   await livepeerService.session.getRecorded(id);
