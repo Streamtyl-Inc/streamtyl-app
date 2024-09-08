@@ -255,6 +255,17 @@ const CreatePostModal = ({ isOpen, onClose }: Props) => {
               size="sm"
               color="white"
               fontSize="xs"
+              isLoading={isPending}
+              loadingText="Please wait..."
+            >
+              Improve post
+            </Button>
+            <Button
+              bg="primary.500"
+              borderRadius="xl"
+              size="sm"
+              color="white"
+              fontSize="xs"
               onClick={handleSubmit(publish)}
               isLoading={isPending}
               loadingText="Please wait..."
