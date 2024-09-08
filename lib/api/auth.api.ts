@@ -11,7 +11,7 @@ export const _login = async (data: LoginFields) =>
   await axiosConfig.post("/auth/login", data);
 
 export const _getProfile = async () =>
-  await axiosConfig.get<Profile>("/auth/profile");
+  await axiosConfig.get<Profile>("/user/profile");
 
 export const _getAuthProfile = async () =>
   await axiosConfig.get<AuthProfile>("/auth/auth-credentials");

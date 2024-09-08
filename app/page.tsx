@@ -30,35 +30,32 @@ export default function Home() {
   });
 
   return (
-    <Stack
-      w="full"
-      my={8}
-      pos="relative"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Text textAlign="center" fontSize="xl" fontWeight={600}>
-        Livestreams
-      </Text>
+    <Stack w="full" my={8} alignItems="center" justifyContent="center">
+      <Stack pos="relative" w="full" justifyContent="center">
+        <Text textAlign="center" fontSize="xl" fontWeight={600}>
+          Livestreams
+        </Text>
 
-      <Button
-        leftIcon={
-          <Box bg="#211F1FCC" rounded="full" p={3}>
-            <BsCameraReelsFill />
-          </Box>
-        }
-        bg="primary.500"
-        color="#fff"
-        rounded="3xl"
-        fontSize="sm"
-        py={6}
-        pl={3}
-        pos="absolute"
-        right={7}
-        onClick={onOpen}
-      >
-        Go Live
-      </Button>
+        <Button
+          leftIcon={
+            <Box bg="#211F1FCC" rounded="full" p={3}>
+              <BsCameraReelsFill />
+            </Box>
+          }
+          bg="primary.500"
+          color="#fff"
+          rounded="3xl"
+          fontSize="sm"
+          py={6}
+          pl={3}
+          pos="absolute"
+          top={-2}
+          right={7}
+          onClick={onOpen}
+        >
+          Go Live
+        </Button>
+      </Stack>
 
       <GoLiveModal onClose={onClose} isOpen={isOpen} />
 
@@ -83,7 +80,7 @@ export default function Home() {
           )}
 
         {isLoading && (
-          <Center py={10}>
+          <Center h="30vh">
             <Spinner color="primary.600" />
           </Center>
         )}

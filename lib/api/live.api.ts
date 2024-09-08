@@ -11,24 +11,27 @@ import {
 import { livepeerService } from "@/utils/livepeer-client";
 import { CommentField } from "../schema/comment.schema";
 
-export const _createStream = async (
-  data: Stream,
-  user: Profile,
-  file: string
-) => {
+export const _createStream = async (payload: {
+  data: Stream;
+  user: Profile;
+  file: string;
+}) => {
   var formData = new FormData();
   const today = new Date();
 
   const imageFile = CropperService.base64StringtoFile(
-    file,
+    payload.file,
     Math.random().toString()
   );
 
-  formData.append("stream_key", data.streamKey);
-  formData.append("stream_id", data.id);
-  formData.append("creator_name", String(user?.username));
-  formData.append("stream_name", data.name);
-  formData.append("playback_id", data.playbackId);
+  formData.append("stream_key", payload.data.streamKey);
+  formData.append("stream_id", payload.data.id);
+  formData.append(
+    "creator_name",
+    String(`${payload.user.firstname} ${payload.user.lastname}`)
+  );
+  formData.append("stream_name", payload.data.name);
+  formData.append("playback_id", payload.data.playbackId);
   formData.append("streaming_time", today.toISOString());
   formData.append("thumbnail", imageFile, imageFile.name);
 

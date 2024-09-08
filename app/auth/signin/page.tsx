@@ -90,20 +90,20 @@ const Signin = () => {
 
       <form onSubmit={handleSubmit(login)}>
         <Stack mt={10} spacing={5}>
-          <FormControl isInvalid={errors.username ? true : false}>
-            <FormLabel htmlFor="username" color="#fff">
-              Username
+          <FormControl isInvalid={errors.email ? true : false}>
+            <FormLabel htmlFor="email" color="#fff">
+              Email
             </FormLabel>
             <Controller
-              name="username"
+              name="email"
               control={control}
               defaultValue={""}
               rules={{ required: true }}
               render={({ field }) => (
                 <Input
-                  id="username"
+                  id="email"
                   type="text"
-                  placeholder="Enter username"
+                  placeholder="Enter email"
                   variant="outline"
                   {...field}
                   color="#fff"
@@ -112,7 +112,7 @@ const Signin = () => {
             />
             <ErrorMessage
               errors={errors}
-              name="username"
+              name="email"
               render={({ message }) => (
                 <Text paddingY={2} fontSize="sm" color="#fff">
                   {message}
