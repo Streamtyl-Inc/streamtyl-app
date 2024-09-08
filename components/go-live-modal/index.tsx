@@ -139,6 +139,7 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
         setLoading(false);
       } catch (error) {
         console.error("Error generating image:", error);
+        setLoading(false);
         }
       }
   };
