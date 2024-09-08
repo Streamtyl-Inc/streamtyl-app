@@ -28,7 +28,6 @@ import { NameField } from "@/lib/schema/create-stream.schema";
 import { useUser } from "@/lib/hooks/user.hook";
 import { _createStream } from "@/lib/api/live.api";
 // import { ProfileContext } from "../../../lib/contexts/profile.context";
-// import { _createStream } from "../../../lib/api/live.api";
 import { useAIImageGenerator } from "@/lib/useAIImageGen";
 
 type Props = {
@@ -122,6 +121,7 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
       setLoading(false);
     },
   });
+
   const handleStreamName = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setStreamName(e.target.value)
@@ -143,38 +143,6 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
         }
       }
   };
-
-  // const generateCover = async () => {
-  //   try {
-  //     //const imgUrl = await useAIImageGenerator("A gamefied banner for stream Playing CODM");
-  //     const imgUrl = 'https://storage.googleapis.com/galadriel-assets/9e01ef0e-6edc-4b37-8c9a-b1176434a6f7.png'
-  
-  //     // Fetch the image from the URL
-  //     const response = await fetch(imgUrl, { mode: 'no-cors' });
-  //     const blob = await response.blob(); // Convert the image to a Blob
-  //     console.log(blob)
-  
-  //     // Convert the Blob to a Base64 string
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       const base64String = reader.result as string;
-  //       setImageFile(base64String); // Set the image as base64 string
-  //     };
-  //     reader.readAsDataURL(blob);
-  //   } catch (error) {
-  //     console.error("Error generating image:", error);
-  //   }
-  // };
-  
-
-  const { isLoading, data } = useQuery({
-    queryKey: ["start_stream"],
-    queryFn: () => {
-      if (stream && imageFile) {
-        // return _createStream(stream, user, imageFile);
-      }
-    },
-  });
 
   useEffect(() => {
     if (stream && status === "success" && user && user.data && imageFile)
@@ -241,14 +209,14 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
                 required
               />
 
-                <Button
-                  bg="primary.500"
-                  color="white"
-                  onClick={generateCover}
-                  isLoading={loading}
-                >
-                  Generate with AI
-                </Button>
+              <Button
+                    bg="primary.500"
+                    color="white"
+                    onClick={generateCover}
+                    isLoading={loading}
+                  >
+                    Generate with AI
+              </Button>
             </Stack>
 
             <Stack
