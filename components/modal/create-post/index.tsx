@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Button,
   HStack,
@@ -27,7 +27,7 @@ import { BsImages } from "react-icons/bs";
 import { BiVideoPlus } from "react-icons/bi";
 import { compressImage } from "@/lib/utils";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useAuthUser } from "@/lib/hooks/auth-user.hook";
+import { useUser } from "@/lib/hooks/user.hook";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -44,7 +44,7 @@ export class PostField {
 const CreatePostModal = ({ isOpen, onClose }: Props) => {
   const bgColor = useColorModeValue("#EEECEC", "#262323");
   const closeButtonColor = useColorModeValue("#ccc", "#2F3030");
-  const { user } = useAuthUser();
+  const { user } = useUser();
   const queryClient = useQueryClient();
 
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -142,9 +142,6 @@ const CreatePostModal = ({ isOpen, onClose }: Props) => {
                 fontSize="md"
                 textTransform="capitalize"
               >{`${user?.data.firstname} ${user?.data.lastname}`}</Text>
-              <Text fontSize="xs" color="#ACACAC">
-                {`@${user?.data.username}`}
-              </Text>
             </Stack>
           </HStack>
 

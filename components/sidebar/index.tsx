@@ -16,6 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useUser } from "@/lib/hooks/user.hook";
 import { useCallback, useEffect } from "react";
+import LogoutModal from "../modal/logout";
 
 type Props = {};
 
@@ -128,11 +129,12 @@ const SideBar = (props: Props) => {
               transition: "all ease-out 300ms",
             }}
             aria-label="logout"
+            onClick={onOpen}
           />
         </Tooltip>
       </Stack>
 
-      {/* <LogoutModal isOpen={isOpen} onClose={onClose} /> */}
+      <LogoutModal isOpen={isOpen} onClose={onClose} />
     </VStack>
   );
 };

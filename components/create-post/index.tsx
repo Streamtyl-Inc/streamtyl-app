@@ -1,18 +1,10 @@
-import { useContext } from "react";
-import {
-  HStack,
-  Avatar,
-  Stack,
-  Input,
-  useDisclosure,
-  Text,
-} from "@chakra-ui/react";
+import { HStack, Avatar, Stack, useDisclosure, Text } from "@chakra-ui/react";
 import { AiOutlineSend } from "react-icons/ai";
 import CreatePostModal from "../modal/create-post";
-import { useAuthUser } from "@/lib/hooks/auth-user.hook";
+import { useUser } from "@/lib/hooks/user.hook";
 
 const CreatePost = () => {
-  const { user } = useAuthUser();
+  const { user } = useUser();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 

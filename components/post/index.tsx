@@ -20,8 +20,8 @@ import { _getPosts } from "../../lib/api/post.api";
 import { PostData } from "../../lib/types/post.type";
 import NextLink from "next/link";
 import { formatDistanceToNowStrict } from "date-fns";
-import { useAuthUser } from "@/lib/hooks/auth-user.hook";
 import DeletePostModal from "../modal/delete-post";
+import { useUser } from "@/lib/hooks/user.hook";
 
 type Props = {
   post: PostData;
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const Post = ({ post, page }: Props) => {
-  const { user } = useAuthUser();
+  const { user } = useUser();
 
   const {
     isOpen: deleteModal,
