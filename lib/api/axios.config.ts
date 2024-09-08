@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken } from "../utils";
 
-const streamtylBaseUrl = "https://api.streamtyl.io/api/v1";
+const streamtylBaseUrl = "https://api.streamtyl.xyz/api/v1";
 // const streamtylBaseUrl = 'http://localhost:5000/api/v1'
 
 const headers = {

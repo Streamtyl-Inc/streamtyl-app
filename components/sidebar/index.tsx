@@ -12,13 +12,22 @@ import NextLink from "next/link";
 import { HiUsers } from "react-icons/hi";
 import { IoMdHome } from "react-icons/io";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import { useUser } from "@/lib/hooks/user.hook";
+import { useCallback, useEffect } from "react";
 
 type Props = {};
 
 const SideBar = (props: Props) => {
   const pathname = usePathname();
+
+  const { replace } = useRouter();
+  const { isLoading, user } = useUser();
+
+  const validateAuth = useCallback(() => {
+    if (!isLoading && !user) replace(`/auth/signin?redirect=${pathname}`);
+  }, [user, isLoading]);
 
   const { onOpen, isOpen, onClose } = useDisclosure();
 
@@ -38,6 +47,10 @@ const SideBar = (props: Props) => {
       icon: <HiUsers size={25} />,
     },
   ];
+
+  useEffect(() => {
+    validateAuth();
+  }, [validateAuth]);
 
   return (
     <VStack

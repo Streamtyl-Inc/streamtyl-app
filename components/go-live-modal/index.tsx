@@ -23,10 +23,11 @@ import { useRouter } from "next/navigation";
 import { useCreateStream } from "@livepeer/react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { NameField } from "@/lib/schema/create-stream.schema";
+import { useUser } from "@/lib/hooks/user.hook";
+import { _createStream } from "@/lib/api/live.api";
 // import { ProfileContext } from "../../../lib/contexts/profile.context";
-// import { _createStream } from "../../../lib/api/live.api";
 
 type Props = {
   isOpen: boolean;
@@ -42,6 +43,8 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
   const [loading, setLoading] = useState(false);
 
   // const user = useContext(ProfileContext);
+
+  const { user } = useUser();
 
   const {
     handleSubmit,
@@ -84,11 +87,13 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
   } = useCreateStream({ name: watch("stream_name"), record: true });
 
   const create_stream: SubmitHandler<NameField> = (data) => {
+    setErrorResponse("");
     if (imageFile) {
       setLoading(true);
       try {
         createStream?.();
-      } catch (error) {
+      } catch (error: any) {
+        setErrorResponse(error?.message as string);
         setLoading(false);
       }
     } else {
@@ -96,27 +101,29 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
     }
   };
 
-  const { isLoading, data } = useQuery({
-    queryKey: ["start_stream"],
-    queryFn: () => {
-      if (stream && imageFile) {
-        // return _createStream(stream, user, imageFile);
-      }
+  const { mutate, isPending } = useMutation({
+    mutationFn: _createStream,
+    onSuccess: (data) => {
+      push(`/stream/setup?stream=${data?.data.id}`);
+      onClose();
+      reset();
+      setImageFile(null);
+      setLoading(false);
     },
-    // onSuccess: (data) => {
-    //   push(`/live/${data?.data.id}`);
-    //   onClose();
-    //   reset();
-    //   setImageFile(null);
-    //   setLoading(false);
-    // },
-    // onError: () => setLoading(false),
-    retry: 0,
-    refetchOnWindowFocus: false,
-    enabled: !!stream,
+    onError: (err: any) => {
+      if (err?.response?.data) {
+        setErrorResponse(err?.response?.data?.message);
+      } else {
+        setErrorResponse(err.message);
+      }
+      setLoading(false);
+    },
   });
 
-  useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (stream && status === "success" && user && user.data && imageFile)
+      mutate({ data: stream, user: user.data, file: imageFile });
+  }, [stream]);
 
   return (
     <Modal

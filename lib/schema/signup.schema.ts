@@ -1,6 +1,14 @@
-import { IsEmail, IsString, Length, Matches } from "class-validator";
+import { IsEmail, IsString, Length, Matches, MinLength } from "class-validator";
 
 export class SignupFields {
+  @IsString()
+  @MinLength(3)
+  firstname: string;
+
+  @IsString()
+  @MinLength(3)
+  lastname: string;
+
   @Length(3, 16)
   @Matches(/^(?!.\.\.)(?!.\.$)[^\W][\w.]{0,29}$/, {
     message: "invalid username",

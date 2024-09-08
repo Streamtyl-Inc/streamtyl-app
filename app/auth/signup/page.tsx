@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage } from "@hookform/error-message";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -26,6 +26,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiHide, BiShow } from "react-icons/bi";
 import { SignupFields } from "@/lib/schema/signup.schema";
 import { _signup } from "../../../lib/api/auth.api";
+import { setAccessToken } from "@/lib/utils";
+import { QueryKeys } from "@/lib/constants/keys";
 
 const Signup = () => {
   const [agreement, setAgreement] = useState(false);
@@ -33,6 +35,8 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { replace } = useRouter();
+
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -44,7 +48,11 @@ const Signup = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: _signup,
     onSuccess: (data) => {
-      replace("/auth/login");
+      setAccessToken(data.data.access_token);
+      replace("/");
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.GET_USER_PROFILE],
+      });
     },
     onError: (error: any) => {
       if (error?.response?.data) {
@@ -73,6 +81,68 @@ const Signup = () => {
 
       <form onSubmit={handleSubmit(signup)}>
         <Stack mt={10} spacing={6}>
+          <FormControl isInvalid={errors.firstname ? true : false}>
+            <FormLabel htmlFor="firstname" color="#fff">
+              Firstname
+            </FormLabel>
+            <Controller
+              name="firstname"
+              control={control}
+              defaultValue={""}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  id="firstname"
+                  type="text"
+                  placeholder="Enter firstname"
+                  variant="outline"
+                  {...field}
+                  color="#fff"
+                />
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="firstname"
+              render={({ message }) => (
+                <Text paddingY={2} fontSize="sm" color="#fff">
+                  {message}
+                </Text>
+              )}
+            />
+          </FormControl>
+
+          <FormControl isInvalid={errors.lastname ? true : false}>
+            <FormLabel htmlFor="lastname" color="#fff">
+              Lastname
+            </FormLabel>
+            <Controller
+              name="lastname"
+              control={control}
+              defaultValue={""}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  id="lastname"
+                  type="text"
+                  placeholder="Enter lastname"
+                  variant="outline"
+                  {...field}
+                  color="#fff"
+                />
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="lastname"
+              render={({ message }) => (
+                <Text paddingY={2} fontSize="sm" color="#fff">
+                  {message}
+                </Text>
+              )}
+            />
+          </FormControl>
+
           <FormControl isInvalid={errors.username ? true : false}>
             <FormLabel htmlFor="username" color="#fff">
               Username
