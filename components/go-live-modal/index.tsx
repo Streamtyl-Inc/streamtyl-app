@@ -28,6 +28,7 @@ import { NameField } from "@/lib/schema/create-stream.schema";
 import { useUser } from "@/lib/hooks/user.hook";
 import { _createStream } from "@/lib/api/live.api";
 // import { ProfileContext } from "../../../lib/contexts/profile.context";
+// import { _createStream } from "../../../lib/api/live.api";
 import { useAIImageGenerator } from "@/lib/useAIImageGen";
 
 type Props = {
@@ -209,14 +210,14 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
                 required
               />
 
-              <Button
-                    bg="primary.500"
-                    color="white"
-                    onClick={generateCover}
-                    isLoading={loading}
-                  >
-                    Generate with AI
-              </Button>
+                <Button
+                  bg="primary.500"
+                  color="white"
+                  onClick={generateCover}
+                  isLoading={loading}
+                >
+                  Generate with AI
+                </Button>
             </Stack>
 
             <Stack
