@@ -1,6 +1,6 @@
 import { AuthProfile, AuthUser } from "./auth.type";
 import { Meta } from "./meta.type";
-import { BucketImage } from "./user.type";
+import { BucketImage, Profile } from "./user.type";
 
 export type StreamComment = {
   id: string;
@@ -8,11 +8,11 @@ export type StreamComment = {
   updated_at: string;
   comment_text: string;
   likes_count: number;
-  auth: AuthUser;
+  user: AuthProfile;
 };
 
 export type UserStream = {
-  auth: AuthUser;
+  user: Profile;
   comment_count: number;
   created_at: string;
   creator_name: string;
@@ -40,30 +40,6 @@ export type CreateStream = {
   streaming_time: string;
   thumbnail: BucketImage;
   updated_at: string;
-};
-
-export type GetStream = {
-  comment_count: number;
-  created_at: string;
-  creator_name: string;
-  id: string;
-  playback_id: string;
-  stream_id: string;
-  stream_key: string;
-  stream_name: string;
-  streaming_time: string;
-  thumbnail: BucketImage;
-  updated_at: string;
-  auth: {
-    id: string;
-    created_at: string;
-    updated_at: string;
-    email: string;
-    username: string;
-    restricted: boolean;
-    socket_id: string;
-    profile: AuthProfile;
-  };
 };
 
 export type UserStreamsResponse = {

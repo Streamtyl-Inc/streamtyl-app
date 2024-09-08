@@ -39,7 +39,7 @@ const StreamCard = ({ stream }: Props) => {
 
   return (
     <Stack spacing={4}>
-      <Link href={`/live/streams?stream=${stream?.id}`} passHref>
+      <Link href={`/stream/${stream?.id}`} passHref>
         <Stack position="relative" h="200px" overflow="hidden">
           <Stack
             h="full"
@@ -91,11 +91,11 @@ const StreamCard = ({ stream }: Props) => {
       <HStack justifyContent="space-between" alignItems="flex-start">
         <HStack alignItems="flex-start" spacing={3}>
           <Avatar
-            src={stream.auth.profile.avatar?.url}
-            name={`${stream.auth.profile.firstname} ${stream.auth.profile.lastname}`}
+            src={stream.user.avatar?.url}
+            name={`${stream.user.firstname} ${stream.user.lastname}`}
           />
           <Stack spacing={0.5}>
-            <Text>{`${stream.auth.profile.firstname} ${stream.auth.profile.lastname}`}</Text>
+            <Text>{`${stream.user.firstname} ${stream.user.lastname}`}</Text>
 
             <Text
               fontWeight="medium"

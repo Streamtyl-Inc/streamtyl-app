@@ -30,7 +30,13 @@ export default function Home() {
   });
 
   return (
-    <Stack w="full" my={8} alignItems="center" justifyContent="center">
+    <Stack
+      w="full"
+      spacing={8}
+      my={8}
+      alignItems="center"
+      justifyContent="center"
+    >
       <Stack pos="relative" w="full" justifyContent="center">
         <Text textAlign="center" fontSize="xl" fontWeight={600}>
           Livestreams

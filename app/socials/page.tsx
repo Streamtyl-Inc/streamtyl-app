@@ -37,20 +37,26 @@ const Feeds = () => {
           <CreatePost />
           <VStack spacing={5}>
             {!isLoading &&
-            postData &&
-            postData.data &&
-            postData.data.data &&
-            postData.data.data.length !== 0 ? (
+              postData &&
+              postData.data &&
+              postData.data.data &&
+              postData.data.data.length !== 0 &&
               postData.data.data.map((post) => (
                 <Post post={post} key={post.id} page={page} />
-              ))
-            ) : (
-              <Center>
-                <Text fontWeight="semibold" py={3}>
-                  You don&apos;t have any post
-                </Text>
-              </Center>
-            )}
+              ))}
+
+            {!isLoading &&
+              postData &&
+              postData.data &&
+              postData.data.data &&
+              postData.data.data.length === 0 && (
+                <Center>
+                  <Text fontWeight="semibold" py={3}>
+                    You don&apos;t have any post
+                  </Text>
+                </Center>
+              )}
+
             {isLoading && (
               <Center my={5}>
                 <Spinner color="primary.500" thickness="3px" />

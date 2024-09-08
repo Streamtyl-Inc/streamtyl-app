@@ -32,7 +32,14 @@ export default function RootLayout({
             <Stack w="fit-content">
               <SideBar />
             </Stack>
-            <Stack as="main" w="full" className="no-scrollbar">
+            <Stack
+              as="main"
+              w="full"
+              h="100vh"
+              overflowY="auto"
+              className="no-scrollbar"
+              pb={10}
+            >
               {children}
             </Stack>
           </HStack>
