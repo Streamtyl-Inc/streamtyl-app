@@ -62,11 +62,3 @@ export const _createComment = async (payload: {
   id: string;
   data: CommentField;
 }) => await axiosConfig.post(`/stream/${payload.id}/comment`, payload.data);
-
-export const _updatePastelId = async (payload: {
-  data: { pastel_result_id: string };
-  stream_id: string;
-}) => await axiosConfig.patch(`/stream/${payload.stream_id}`, payload.data);
-
-export const _getPlayback = async (playback_id: string) =>
-  await livepeerService.playback.get(playback_id);

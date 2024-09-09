@@ -50,7 +50,7 @@ const Streams = ({ params: { streamId } }: Props) => {
   });
 
   useEffect(() => {
-    if (!isLoading && stream && stream.data) mutate(stream.data.id);
+    if (!streamLoading && stream && stream.data) mutate(stream.data.stream_id);
   }, [stream]);
 
   const videoDetails: Session[] = recordedVideo?.data ?? [];
