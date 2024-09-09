@@ -18,7 +18,7 @@ const LiveStream = () => {
   const [attestation,setAttestation]=useState(null) as any
   const [loading,setLoader]=useState(false)
 
-  const streamId = searchParams.get("streamId");
+  const streamId = searchParams.get("streamId") as string
 
   const { isLoading, data: stream } = useQuery({
     queryKey: [QueryKeys.GET_STREAM_DETAILS, streamId],
@@ -41,18 +41,16 @@ const LiveStream = () => {
          timestamp:Date.now()
         
         },
-        indexingValue:"0x5c12DB1E016bEa19aeD67C125dc5b036e39320Cb"
+        indexingValue:streamId?.toLowerCase()
       
       });
-  
-      console.log(res,"res")
       res?.attestationId?.length >0&&setLoader(false)
       setAttestation(res)
      }catch(e){
       console.log(e)
      }
   }
-console.log(stream?.data,"dta")
+
 
   return (
     <>
@@ -84,9 +82,7 @@ console.log(stream?.data,"dta")
                      onClick={signAttestation}
                    >
                   {loading ? 
-                      <Center h="30vh">
-                        <Spinner color="white" size={"12px"}/>
-                      </Center>
+                     "Creating attestation"
                       :
                       "Sign Your Video"
                     }
