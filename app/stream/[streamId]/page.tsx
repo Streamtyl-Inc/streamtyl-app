@@ -75,8 +75,8 @@ const Streams = ({ params: { streamId } }: Props) => {
             <Stack>
               {playbackInfo?.meta.live ? (
                 <Player title={stream?.data.stream_name} />
-              ) : (
-                <StreamPlayer src={(videoDetails[0]?.mp4Url as string) ?? ""} />
+               ) : (
+                 <StreamPlayer src={(videoDetails[0]?.mp4Url as string) ?? ""} id={stream.data.id}/>
               )}
 
               <Stack spacing={3}>
