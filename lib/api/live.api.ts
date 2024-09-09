@@ -10,6 +10,8 @@ import {
 } from "../types/stream.type";
 import { livepeerService } from "@/utils/livepeer-client";
 import { CommentField } from "../schema/comment.schema";
+import { Client } from "@xmtp/xmtp-js";
+import { Wallet } from "ethers";
 
 export const _createStream = async (payload: {
   data: Stream;

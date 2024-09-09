@@ -7,6 +7,7 @@ import {
   Spinner,
   Text,
   useDisclosure,
+  Box
 } from "@chakra-ui/react";
 import { BsMic } from "react-icons/bs";
 import { BiWebcam } from "react-icons/bi";

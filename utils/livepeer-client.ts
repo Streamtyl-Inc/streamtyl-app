@@ -4,11 +4,11 @@ var apiKey="bce412b1-9641-4983-8157-59d37c6b9dcd"
 export const livepeerClient = createReactClient({
   provider: studioProvider({
     // apiKey: process.env.NEXT_PUBLIC_LIVEPEER_API_KEY!,
-    apiKey:apiKey
+    apiKey:"bce412b1-9641-4983-8157-59d37c6b9dcd"
   }),
 });
 
 export const livepeerService = new Livepeer({
-  apiKey:apiKey
+  apiKey:"bce412b1-9641-4983-8157-59d37c6b9dcd"
   
 });
