@@ -17,8 +17,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommentField } from "@/lib/schema/comment.schema";
 import { _createComment } from "@/lib/api/live.api";
 import { QueryKeys } from "@/lib/constants/keys";
-import { Wallet } from "ethers";
-import { Client } from "@xmtp/xmtp-js";
+// import { Wallet } from "ethers";
+// import { Client } from "@xmtp/xmtp-js";
 import { AiOutlineDollar } from "react-icons/ai";
 
 type Props = {
@@ -27,9 +27,9 @@ type Props = {
 };
 
 const CreateComment = ({ id, scrollToComment }: Props) => {
-  const [xmtp,setXmtp]=useState(null) as any
+  // const [xmtp,setXmtp]=useState(null) as any
   const [isTip,setIstip]=useState(false)
-  const [conv,setConv]=useState<any>(null)
+  // const [conv,setConv]=useState<any>(null)
   const {
     handleSubmit,
     control,
@@ -41,51 +41,51 @@ const CreateComment = ({ id, scrollToComment }: Props) => {
   });
 
 
-  const initXmtp = async () => {
-    const signer = Wallet.createRandom();
-    const xmtp = await Client.create( signer , { env: "dev" });
-    console.log(xmtp,"xtmp")
-    setXmtp(xmtp) 
-  };
+  // const initXmtp = async () => {
+  //   const signer = Wallet.createRandom();
+  //   const xmtp = await Client.create( signer , { env: "dev" });
+  //   console.log(xmtp,"xtmp")
+  //   setXmtp(xmtp) 
+  // };
 
-  useEffect(()=>{
-    initXmtp()
-  },[])
+  // useEffect(()=>{
+  //   initXmtp()
+  // },[])
 
-  useEffect(()=>{
-    const startBot=async()=>{
-       try{
-        const conversation = await xmtp.conversations.newConversation(
-          "0xC792746196Cb489C50D2b0126192338DE5339189",
-        );
-        setConv(conversation)
-       }catch(e){
-        console.log(e)
-       }
+  // useEffect(()=>{
+  //   const startBot=async()=>{
+  //      try{
+  //       const conversation = await xmtp.conversations.newConversation(
+  //         "0xC792746196Cb489C50D2b0126192338DE5339189",
+  //       );
+  //       setConv(conversation)
+  //      }catch(e){
+  //       console.log(e)
+  //      }
      
-    }
-    startBot()
+  //   }
+  //   startBot()
    
-  },[xmtp])
+  // },[xmtp])
 
-  useEffect(()=>{
-    getConvs()
-  })
-   const getConvs=async()=>{
-      try{
-        for await (const message of await conv?.streamMessages()) {
-          if (message.senderAddress === xmtp.address) {
-            // This message was sent from me
-            continue;
-          }
-          console.log(`New message from ${message.senderAddress}: ${message.content}`);
+  // useEffect(()=>{
+  //   getConvs()
+  // })
+  //  const getConvs=async()=>{
+  //     try{
+  //       for await (const message of await conv?.streamMessages()) {
+  //         if (message.senderAddress === xmtp.address) {
+  //           // This message was sent from me
+  //           continue;
+  //         }
+  //         console.log(`New message from ${message.senderAddress}: ${message.content}`);
 
-        }
+  //       }
 
-       }catch(e){
-         console.log(e)
-       }
-   }
+  //      }catch(e){
+  //        console.log(e)
+  //      }
+  //  }
 
   const queryClient = useQueryClient();
 
@@ -104,9 +104,9 @@ const CreateComment = ({ id, scrollToComment }: Props) => {
       mutate({ id, data });
     }else{
       console.log("/tip")
-      setIstip(true)
-      console.log(conv,"conv")
-      await conv?.send("/tip @bo @alix 15");
+      // setIstip(true)
+      // console.log(conv,"conv")
+      // await conv?.send("/tip @bo @alix 15");
     }
   };
 
