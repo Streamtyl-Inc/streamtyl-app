@@ -5,9 +5,10 @@ import { IoCloseSharp } from "react-icons/io5";
 import {getAttestation} from "../../lib/api/attestatio.api"
 type Props = {
   src: string;
+  id:string
 };
 
-const StreamPlayer = ({ src }: Props) => {
+const StreamPlayer = ({ src,id }: Props) => {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState(false);
   const [attestation,setAttestation]=useState() as any
@@ -39,7 +40,7 @@ const StreamPlayer = ({ src }: Props) => {
               mode: "onchain", // Data storage location
               schemaId: "onchain_evm_11155111_0x10d", // Your full schema's ID
               attester: "0x66D7A32aD5abc224519f6891cdCFdaF8397CfDaf", // Alice's address
-              indexingValue: "5c2613fd-c674-4486-bc6f-65e0a1e4a727".toLowerCase(), // Bob's address
+              indexingValue:id?.toLowerCase(), // Bob's address
             },
          }
          )
