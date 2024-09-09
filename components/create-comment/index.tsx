@@ -27,9 +27,9 @@ type Props = {
 };
 
 const CreateComment = ({ id, scrollToComment }: Props) => {
-  const [xmtp,setXmtp]=useState() as any
+  const [xmtp,setXmtp]=useState(null) as any
   const [isTip,setIstip]=useState(false)
-  const [conv,setConv]=useState<any>({})
+  const [conv,setConv]=useState<any>(null)
   const {
     handleSubmit,
     control,
