@@ -28,6 +28,8 @@ import { NameField } from "@/lib/schema/create-stream.schema";
 import { useUser } from "@/lib/hooks/user.hook";
 import { _createStream } from "@/lib/api/live.api";
 // import { ProfileContext } from "../../../lib/contexts/profile.context";
+// import { _createStream } from "../../../lib/api/live.api";
+import { useAIImageGenerator } from "@/lib/useAIImageGen";
 
 type Props = {
   isOpen: boolean;
@@ -41,6 +43,7 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
   const [errorResponse, setErrorResponse] = useState("");
   const [imageFile, setImageFile] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [streamName, setStreamName] = useState('');
 
   // const user = useContext(ProfileContext);
 
@@ -120,6 +123,28 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
     },
   });
 
+  const handleStreamName = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      setStreamName(e.target.value)
+    }
+  };
+
+  const generateCover = async () => {
+    if (streamName.length > 5) {
+      try {
+        setLoading(true);
+        const imgUrl = await useAIImageGenerator(streamName);
+        console.log(streamName)
+        //const imgUrl = 'https://storage.googleapis.com/galadriel-assets/9e01ef0e-6edc-4b37-8c9a-b1176434a6f7.png'
+        setImageFile(imgUrl); // Set the generated image URL to the state
+        setLoading(false);
+      } catch (error) {
+        console.error("Error generating image:", error);
+        setLoading(false);
+        }
+      }
+  };
+
   useEffect(() => {
     if (stream && status === "success" && user && user.data && imageFile)
       mutate({ data: stream, user: user.data, file: imageFile });
@@ -184,6 +209,15 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
                 onChange={handleFileChange}
                 required
               />
+
+                <Button
+                  bg="primary.500"
+                  color="white"
+                  onClick={generateCover}
+                  isLoading={loading}
+                >
+                  Generate with AI
+                </Button>
             </Stack>
 
             <Stack
@@ -214,6 +248,7 @@ const GoLiveModal = ({ isOpen, onClose }: Props) => {
                         fontSize: "xs",
                       }}
                       {...field}
+                      onChange={handleStreamName}
                     />
                   )}
                 />
